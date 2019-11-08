@@ -72,7 +72,9 @@ dl, ol, ul {
 margin-bottom: 0rem;
 }
 .product-form{
+padding-bottom: 0px;
 width: 80%;
+
 }
 .product-text{
 height: 50px;
@@ -234,9 +236,6 @@ width: 100px;
   top: 50%;
   -ms-transform: translateY(-50%);
   transform: translateY(-50%);
-}
-.css-1pcexqc-container{
-  width: 79px;
 }
 .btn {
   text-transform: none;

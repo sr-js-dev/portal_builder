@@ -3,14 +3,15 @@ import { Row } from 'react-bootstrap';
 import { Col } from 'react-bootstrap';
 import Sidebar from '../components/sidebar'
 import Header from '../components/header'
-import { Switch,Router } from 'react-router-dom';
+import page from '../pages/page'
+import { Switch, Router, Route } from 'react-router-dom';
 import history from '../history';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../assets/css/datatable.css';
-window.localStorage.setItem('AWT', true);
 class Layout extends Component {
   
     render () {
+      let path = history.location.pathname;
       return (
           <Row>
             <Col sm={2}><Sidebar/></Col>
@@ -18,6 +19,7 @@ class Layout extends Component {
             <Header/>
                 <Router history={history}>
                   <Switch>
+                    <Route path={path} component={page}/>
                   </Switch>
                 </Router>
             </Col>

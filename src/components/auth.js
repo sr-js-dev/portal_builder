@@ -1,3 +1,3 @@
 export const getUserToken = () => {
-    return(window.localStorage.getItem('nevema_token'))
+    return(window.localStorage.getItem('portal_token'))
 };
