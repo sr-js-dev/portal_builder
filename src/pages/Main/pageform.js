@@ -4,8 +4,8 @@ import { Modal, Form, Button, Row, Col } from 'react-bootstrap';
 import { connect } from 'react-redux';
 // import DatePicker from "react-datepicker";
 import Select from 'react-select';
-import SessionManager from '../components/session_manage';
-import API from '../components/api'
+import SessionManager from '../../components/session_manage';
+import API from '../../components/api'
 import Axios from 'axios';
 // import history from '../history';
 const mapStateToProps = state => ({ 

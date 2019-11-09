@@ -3,7 +3,7 @@ import { Row } from 'react-bootstrap';
 import { Col } from 'react-bootstrap';
 import Sidebar from '../components/sidebar'
 import Header from '../components/header'
-import page from '../pages/page'
+import page from '../pages/Main/page'
 import { Switch, Router, Route } from 'react-router-dom';
 import history from '../history';
 import 'bootstrap/dist/css/bootstrap.min.css';

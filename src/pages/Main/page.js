@@ -1,8 +1,8 @@
 import React, {Component} from 'react'
 import { Button, Form } from 'react-bootstrap';
-import SessionManager from '../components/session_manage';
+import SessionManager from '../../components/session_manage';
 import Pageform from './pageform';
-import API from '../components/api'
+import API from '../../components/api'
 import $ from 'jquery';
 import 'datatables.net';
 import Axios from 'axios';
