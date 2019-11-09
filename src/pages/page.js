@@ -17,6 +17,9 @@ class Layout extends Component {
     this._isMounted = true;
     this.getMenuItems();
   }
+  componentDidUpdate () {
+    this.getMenuItems();
+  }
   getPageId = (value) =>{
     var path = value.split("/")[1];
     let tempe = this.state.menuItemList;
