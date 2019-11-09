@@ -11,7 +11,6 @@ const mapDispatchToProps = dispatch => ({
     // authLogin: (params) =>
     //           dispatch(salesAction.fetchLoginData(params)),
 });
-
 class Login extends React.Component {
 //   constructor() {   
 //     super();
