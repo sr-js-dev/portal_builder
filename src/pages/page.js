@@ -6,6 +6,7 @@ import API from '../components/api'
 import $ from 'jquery';
 import 'datatables.net';
 import Axios from 'axios';
+import Sidebar from '../components/sidebar.js'
 class Layout extends Component {
   constructor(props) {
     super(props);
@@ -18,7 +19,7 @@ class Layout extends Component {
     this.getMenuItems();
   }
   componentDidUpdate () {
-    this.getMenuItems();
+    // this.getMenuItems();
   }
   getPageId = (value) =>{
     var path = value.split("/")[1];
@@ -47,6 +48,7 @@ class Layout extends Component {
   }
 
   getMenuItems = () =>{
+    console.log('aaaaaaaaaaaa');
     var headers = SessionManager.shared().getAuthorizationHeader();
     Axios.get(API.GetMenuItems, headers)
     .then(result => {
@@ -114,6 +116,7 @@ class Layout extends Component {
         
       }
       return (
+        
         <div className="order_div">
             <div className="content__header content__header--with-line">
                 <h2 className="title">{this.state.pageData.Name}</h2>

@@ -27,18 +27,25 @@ class Sidebar extends Component {
         this.getMenuItems();
     }
     getMenuItems = () =>{
+        
         var headers = SessionManager.shared().getAuthorizationHeader();
         Axios.get(API.GetMenuItems, headers)
         .then(result => {
+            console.log(result)
             if(this._isMounted){
                 this.setState({menuItemList: result.data.Items})
             }
         });
     }
+    // onMenuClick = () => {
+    //     console.log('zzzzzzzzzzzzz', this.props)
+    //     // this.props.onHide()
+    // }
     componentWillUnmount() {
         this._isMounted = false;
     }
     render () {
+        console.log('zzzzzzzzzzzzz', this.props)
         let menuItemList =  this.state.menuItemList;
         console.log(menuItemList)
         return (
@@ -49,7 +56,7 @@ class Sidebar extends Component {
                         {menuItemList &&(<ul className="menu__list">
                             {
                                 menuItemList.map((data,i) =>(
-                                    <li  key={i} id="0" className="menu__item">
+                                    <li  key={i} id="0" className="menu__item" onClick={this.props.onHide}>
                                         <Link to={{pathname:"./"+data.URL, state: { pageProperty: data }}} className={window.location.pathname === "/dashboard" ? 'menu__link menu__link--active' : 'menu__link menu__link'}>
                                             <span className="menu__link-img-wrap">
                                                 <img src={require("../assets/images/icon-dashboard.svg")} alt="Dashboard"/>
