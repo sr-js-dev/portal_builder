@@ -27,27 +27,19 @@ class Sidebar extends Component {
         this.getMenuItems();
     }
     getMenuItems = () =>{
-        
         var headers = SessionManager.shared().getAuthorizationHeader();
         Axios.get(API.GetMenuItems, headers)
         .then(result => {
-            console.log(result)
             if(this._isMounted){
                 this.setState({menuItemList: result.data.Items})
             }
         });
     }
-    // onMenuClick = () => {
-    //     console.log('zzzzzzzzzzzzz', this.props)
-    //     // this.props.onHide()
-    // }
     componentWillUnmount() {
         this._isMounted = false;
     }
     render () {
-        console.log('zzzzzzzzzzzzz', this.props)
         let menuItemList =  this.state.menuItemList;
-        console.log(menuItemList)
         return (
             <div>
                 <aside className="sidebar">

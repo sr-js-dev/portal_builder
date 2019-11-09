@@ -8,23 +8,48 @@ import { Switch, Router, Route } from 'react-router-dom';
 import history from '../history';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../assets/css/datatable.css';
+import SessionManager from '../components/session_manage';
+import API from '../components/api'
+import Axios from 'axios';
 class Layout extends Component {
-  
-    render () {
-      let path = history.location.pathname;
-      return (
-          <Row>
-            <Col sm={2}><Sidebar/></Col>
-            <Col sm={10}>
-            <Header/>
-                <Router history={history}>
-                  <Switch>
-                    <Route path={path} component={page}/>
-                  </Switch>
-                </Router>
-            </Col>
-          </Row>
-      )
-    };
+  constructor(props) {
+    super(props);
+    this.state = {
+      menuItemList:[],
+    }
+  }
+  componentDidMount () {
+    this._isMounted = true;
+    this.getMenuItems();
+  }
+  getMenuItems = () =>{
+    var headers = SessionManager.shared().getAuthorizationHeader();
+    Axios.get(API.GetMenuItems, headers)
+    .then(result => {
+        if(this._isMounted){
+          this.setState({menuItemList:result.data.Items})
+        }
+    });
+  }
+  render () {
+    let menuItemList =  this.state.menuItemList;
+    return (
+        <Row>
+          <Col sm={2}><Sidebar/></Col>
+          <Col sm={10}>
+          <Header/>
+            <Router history={history}>
+              {menuItemList &&(<Switch>
+                { 
+                    menuItemList.map((data,i) =>(
+                      <Route key={i} path={"/"+data.URL} component={page}/>
+                    ))
+                }
+            </Switch>)}
+            </Router>
+          </Col>
+        </Row>
+    )
+  };
   }
   export default Layout;

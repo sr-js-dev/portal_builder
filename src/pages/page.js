@@ -6,7 +6,6 @@ import API from '../components/api'
 import $ from 'jquery';
 import 'datatables.net';
 import Axios from 'axios';
-import Sidebar from '../components/sidebar.js'
 class Layout extends Component {
   constructor(props) {
     super(props);
@@ -18,9 +17,7 @@ class Layout extends Component {
     this._isMounted = true;
     this.getMenuItems();
   }
-  componentDidUpdate () {
-    // this.getMenuItems();
-  }
+  
   getPageId = (value) =>{
     var path = value.split("/")[1];
     let tempe = this.state.menuItemList;
@@ -48,7 +45,6 @@ class Layout extends Component {
   }
 
   getMenuItems = () =>{
-    console.log('aaaaaaaaaaaa');
     var headers = SessionManager.shared().getAuthorizationHeader();
     Axios.get(API.GetMenuItems, headers)
     .then(result => {

@@ -95,7 +95,9 @@ class Pageform extends Component {
             arrayData = result.data.Items.map( s => ({value:s.key,label:s.value}));
             value.arrayData=arrayData;
             array.push(value);
-            this.setState({data:array});
+            if(this._isMounted){
+                this.setState({data:array});
+            }
         });
     }
 
