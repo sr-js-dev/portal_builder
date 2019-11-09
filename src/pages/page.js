@@ -30,14 +30,17 @@ class Layout extends Component {
   }
 
   getButtonInfo = () => {
-    let params = {
-      'pageid':this.state.pageData.PageId
+    if(this.state.pageData){
+      let params = {
+        'pageid':this.state.pageData.PageId
+      }
+      var headers = SessionManager.shared().getAuthorizationHeader();
+      Axios.post(API.GetButtonInfo, params, headers)
+      .then(result => {
+        this.setState({buttonInfo: result.data.Items[0]})
+      });
     }
-    var headers = SessionManager.shared().getAuthorizationHeader();
-    Axios.post(API.GetButtonInfo, params, headers)
-    .then(result => {
-      this.setState({buttonInfo: result.data.Items[0]})
-    });
+    
   }
 
   getMenuItems = () =>{
@@ -53,15 +56,18 @@ class Layout extends Component {
   }
   
   getGridFunction = () =>{
-    let params = {
-      'pageid':this.state.pageData.PageId
+    if(this.state.pageData){
+      let params = {
+        'pageid':this.state.pageData.PageId
+      }
+      var headers = SessionManager.shared().getAuthorizationHeader();
+      Axios.post(API.GetGridFunction, params, headers)
+      .then(result => {
+        this.setState({gridInfo: result.data.Items[0]})
+        this.getGridColumns();
+      });
     }
-    var headers = SessionManager.shared().getAuthorizationHeader();
-    Axios.post(API.GetGridFunction, params, headers)
-    .then(result => {
-      this.setState({gridInfo: result.data.Items[0]})
-      this.getGridColumns();
-    });
+    
   }
   getGridColumns = () =>{
     let params = {
