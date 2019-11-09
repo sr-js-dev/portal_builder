@@ -40,6 +40,7 @@ class Sidebar extends Component {
     }
     render () {
         let menuItemList =  this.state.menuItemList;
+        console.log(menuItemList)
         return (
             <div>
                 <aside className="sidebar">

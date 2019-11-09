@@ -21,7 +21,7 @@ class Layout extends Component {
     var path = value.split("/")[1];
     let tempe = this.state.menuItemList;
     tempe.map((data, index) => {
-      if(data.URL===path){
+      if(data.URL.toLocaleLowerCase()===path.toLocaleLowerCase()){
         this.setState({pageData:data})
       }
       return data;
@@ -101,7 +101,6 @@ class Layout extends Component {
       }
       let buttonLabel = '';
       if(this.state.buttonInfo){
-        console.log('qqqqqqq', this.state.buttonInfo);
         buttonLabel=this.state.buttonInfo.Label
         
       }

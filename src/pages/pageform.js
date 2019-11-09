@@ -21,6 +21,7 @@ class Pageform extends Component {
         super(props);
         this.state = {  
             formId:props.formId,
+            data:[]
         };
     }
     componentWillUnmount() {
@@ -49,52 +50,68 @@ class Pageform extends Component {
           Axios.post(API.GetFormFileds, params, headers)
           .then(result => {
               this.setState({formFieldInfo:result.data.Items})
+              this.dropDownDataCount();
               this.getFormFieldData();
           });
     }
-    getFormFieldData = () =>{
-        // let formFieldInfo=this.state.formFieldInfo;
-        // let headers = SessionManager.shared().getAuthorizationHeader();
-        // let params = [];
-        // let dropdownUrl = '';
-        // let dropDownData= [];
-        // let columndata = [];
-        // formFieldInfo.map((data, index) => {
-        //     params = {
-        //         "formfieldid":index
-        //     }
-        //     Axios.post(API.GetFormDropdownInfo, params, headers)
-        //     .then(result => {
-        //         dropdownUrl = result.data.Items[0].DropdownFunction;
-        //         data.url=dropdownUrl;
-        //         columndata.push(JSON.parse(JSON.stringify(data)))
-        //     })
-        //     .catch(err => {
-        //         columndata.push(JSON.parse(JSON.stringify(data)))
-        //     });
-        //     console.log(formFieldInfo.length)
-            
-        //     this.setState({data:columndata});
-        //     if(formFieldInfo.length===)
-        //   return formFieldInfo;
-        // })
+    dropDownDataCount = () =>{
+        let formFieldInfo=this.state.formFieldInfo;
+        let k=0
+        formFieldInfo.map((data, index) => {
+            if(data.fieldtype==="Dropdown"){
+                k++;
+            }
+          return formFieldInfo;
+        })
+        this.setState({k_flag:k})
     }
-    dropDownData = (url) => {
-        // console.log('222111223', this.state.data);
-        // let arrayData = [];
-        // var array=[];
-        // let dropDownData = [];
-        // let headers = SessionManager.shared().getAuthorizationHeader();
-        // Axios.get(url, headers)
-        // .then(result => {
-        //     arrayData = result.data.Items.map( s => ({value:s.key,label:s.value}));
-        //     // return arrayData;
-        //     // dropDownData.push(JSON.parse(JSON.stringify(arrayData)))
-        //     console.log('111111111111111', arrayData)
-        //     array.push(arrayData)
-        //     console.log('2222222', array)
-        // });
-        // // console.log('111111111111111', dropDownData)
+    getFormFieldData = () =>{
+        let formFieldInfo=this.state.formFieldInfo;
+        let headers = SessionManager.shared().getAuthorizationHeader();
+        let params = [];
+        let dropdownUrl = '';
+        formFieldInfo.map((data, index) => {
+            params = {
+                "formfieldid":1
+            }
+            if(data.fieldtype==="Dropdown"){
+                Axios.post(API.GetFormDropdownInfo, params, headers)
+                .then(result => {
+                    dropdownUrl = result.data.Items[0].DropdownFunction;
+                    data.url=dropdownUrl;
+                    this.dropDownData(data)
+                })
+            }
+          return formFieldInfo;
+        })
+        
+    }
+    dropDownData = (value) => {
+        let arrayData = [];
+        var array=this.state.data;
+        let headers = SessionManager.shared().getAuthorizationHeader();
+        Axios.get(value.url, headers)
+        .then(result => {
+            arrayData = result.data.Items.map( s => ({value:s.key,label:s.value}));
+            value.arrayData=arrayData;
+            array.push(value);
+            this.setState({data:array});
+        });
+    }
+
+    optionData = (val) => {
+        let formFieldInfo=this.state.data;
+        let optionarray = [];
+        if(formFieldInfo){
+            formFieldInfo.map((data, index) => {
+                if(data.parameter===val){
+                    optionarray=data.arrayData;
+                }
+              return formFieldInfo;
+            })
+        }
+        return optionarray
+
     }
     handleSubmit = (event) => {
         // event.preventDefault();
@@ -111,6 +128,12 @@ class Pageform extends Component {
         // });
     }
     render(){
+        var dropDownData=[]
+        if(this.state.data){
+            if(this.state.data.length===this.state.k_flag){
+                dropDownData = this.state.data;
+            }
+        }
         let formInfo = [];
         if(this.state.formInfo){
             formInfo = this.state.formInfo;
@@ -141,17 +164,16 @@ class Pageform extends Component {
                                         {data.label}
                                     </Form.Label>
                                     <Col sm="9" className="product-text">
-                                        {data.fieldtype==="Dropdown" && (
+                                        {data.fieldtype==="Dropdown"&& dropDownData && (
                                             <Select
                                                 name={data.parameter}
-                                                // options={customer}
+                                                options={this.optionData(data.parameter)}
                                                 onChange={val => this.setState({val1:val})}
                                             />
                                         )}
                                         {data.fieldtype==="Text" && (
                                             <Form.Control type="text" name={data.parameter} required placeholder={data.label} />
                                         )}
-                                        
                                         {!this.props.disabled && (
                                             <input
                                                 onChange={val=>console.log()}
