@@ -3,6 +3,8 @@ import '../assets/css/style.min.css';
 import '../assets/css/selectric.css';
 import { Dropdown } from 'react-bootstrap';
 import { connect } from 'react-redux';
+import { removeAuth } from '../components/auth';
+import history from '../history';
 const mapStateToProps = state => ({ 
     ...state.auth,
 });
@@ -14,6 +16,12 @@ class Header extends Component {
         super(props);
         this.state = {  
         };
+    }
+    logOut = () => {
+        var removeFlag = removeAuth();
+        if(removeFlag){
+            history.push('/login')
+        }
     }
     render () {
       return (
@@ -34,7 +42,7 @@ class Header extends Component {
                             Johan Boerema
                         </Dropdown.Toggle>
                         <Dropdown.Menu>
-                            <Dropdown.Item>Logout</Dropdown.Item>
+                            <Dropdown.Item onClick={this.logOut}>Logout</Dropdown.Item>
                         </Dropdown.Menu>
                     </Dropdown>
                 </div>

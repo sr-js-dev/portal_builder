@@ -1,7 +1,32 @@
 import * as types from '../constants/actionTypes';
 import $ from 'jquery';
 import API from '../components/api'
-export const fetchGetToken = (params) => {
+import history from '../history';
+// export const fetchGetToken = (params) => {
+//     return (dispatch) => {
+//         var settings = {
+//             "url": API.GetToken,
+//             "method": "POST",
+//             "headers": {
+//               "Content-Type": "application/x-www-form-urlencoded",
+//             },
+//             "data": {
+//               "grant_type": "password",
+//               "userName": "johan@example.com",
+//               "password": "Pass@word1"
+//             }
+//           }
+//           $.ajax(settings).done(function (response) {
+//           })
+//           .then(response => {
+//             window.localStorage.setItem('portal_token', response.access_token);
+//         })
+//         .catch(err => {
+//         });
+//     };
+// }
+
+export const fetchLoginData = (params) => {
     return (dispatch) => {
         var settings = {
             "url": API.GetToken,
@@ -11,16 +36,19 @@ export const fetchGetToken = (params) => {
             },
             "data": {
               "grant_type": "password",
-              "userName": "johan@example.com",
-              "password": "Pass@word1"
+              "userName": params.username,
+              "password": params.password
             }
           }
           $.ajax(settings).done(function (response) {
           })
           .then(response => {
             window.localStorage.setItem('portal_token', response.access_token);
+            dispatch(fetchLoginDataSuccess(response));
+            history.push('/product')
         })
         .catch(err => {
+            dispatch(fetchLoginDataFail(err.responseJSON.error_description));
         });
     };
 }

@@ -266,3 +266,8 @@ width: 100px;
   box-shadow: 0 0 0 0 #ffff;
   background-color: #ffff !important;
 }
+.dataTables_wrapper .dataTables_filter input {
+  margin-left: 0.5em;
+  /* -webkit-appearance; */
+  -webkit-appearance:button;
+}

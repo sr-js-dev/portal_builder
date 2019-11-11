@@ -4,6 +4,7 @@ import GuestLayout from './layout_guest'
 import Login from '../pages/Signup/login.js'
 import history from '../history';
 import './app.css'
+import PrivateRoute from '../components/privateroute';
 
 class App extends Component {
   render () {
@@ -11,7 +12,7 @@ class App extends Component {
       <Router history={history}>
          <Switch >
           <Route path="/login" component={Login} />
-          <Route path="/" component={GuestLayout} />
+          <PrivateRoute path="/" component={GuestLayout} />
         </Switch>
       </Router>
      

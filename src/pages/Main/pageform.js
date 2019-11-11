@@ -72,7 +72,7 @@ class Pageform extends Component {
         let dropdownUrl = '';
         formFieldInfo.map((data, index) => {
             params = {
-                "formfieldid":1
+                "formfieldid":data.id
             }
             if(data.fieldtype==="Dropdown"){
                 Axios.post(API.GetFormDropdownInfo, params, headers)

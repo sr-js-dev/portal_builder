@@ -3,7 +3,6 @@ import '../assets/css/style.min.css';
 import '../assets/css/selectric.css';
 import  { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import * as authAction  from '../actions/authAction';
 import SessionManager from '../components/session_manage';
 import API from '../components/api'
 import Axios from 'axios';
@@ -11,8 +10,6 @@ const mapStateToProps = state => ({
     ...state.auth,
 });
 const mapDispatchToProps = (dispatch) => ({
-    getToken: () =>
-        dispatch(authAction.fetchGetToken()),
 });
 class Sidebar extends Component {
     constructor(props){
@@ -23,7 +20,6 @@ class Sidebar extends Component {
     }
     componentDidMount () {
         this._isMounted = true;
-        this.props.getToken();
         this.getMenuItems();
     }
     getMenuItems = () =>{
