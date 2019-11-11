@@ -11,6 +11,7 @@ import '../assets/css/datatable.css';
 import SessionManager from '../components/session_manage';
 import API from '../components/api'
 import Axios from 'axios';
+import User from '../pages/User/user_register'
 class Layout extends Component {
   constructor(props) {
     super(props);
@@ -39,6 +40,7 @@ class Layout extends Component {
           <Col sm={10}>
           <Header/>
             <Router history={history}>
+              <Route path={"/user"} component={User}/>
               {menuItemList &&(<Switch>
                 { 
                     menuItemList.map((data,i) =>(

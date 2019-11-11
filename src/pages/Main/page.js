@@ -85,7 +85,9 @@ class Layout extends Component {
     var headers = SessionManager.shared().getAuthorizationHeader();
     Axios.get(this.state.gridInfo.GridFunction, headers)
     .then(result => {
-      this.setState({tableData:result.data.Items})
+      if(this._isMounted){
+        this.setState({tableData:result.data.Items})
+      }
       $('#example').DataTable();
     });
   }

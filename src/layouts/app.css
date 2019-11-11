@@ -269,5 +269,9 @@ width: 100px;
 .dataTables_wrapper .dataTables_filter input {
   margin-left: 0.5em;
   /* -webkit-appearance; */
+  border-radius: 5px;
   -webkit-appearance:button;
+}
+.header__user-img{
+  margin-right: 5px;
 }

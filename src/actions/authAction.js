@@ -2,29 +2,6 @@ import * as types from '../constants/actionTypes';
 import $ from 'jquery';
 import API from '../components/api'
 import history from '../history';
-// export const fetchGetToken = (params) => {
-//     return (dispatch) => {
-//         var settings = {
-//             "url": API.GetToken,
-//             "method": "POST",
-//             "headers": {
-//               "Content-Type": "application/x-www-form-urlencoded",
-//             },
-//             "data": {
-//               "grant_type": "password",
-//               "userName": "johan@example.com",
-//               "password": "Pass@word1"
-//             }
-//           }
-//           $.ajax(settings).done(function (response) {
-//           })
-//           .then(response => {
-//             window.localStorage.setItem('portal_token', response.access_token);
-//         })
-//         .catch(err => {
-//         });
-//     };
-// }
 
 export const fetchLoginData = (params) => {
     return (dispatch) => {
@@ -71,4 +48,29 @@ export const fetchLoginDataSuccess = (data) => {
     }
 }
 
+export const blankdispatch = () => {
+    return (dispatch) => {
+        dispatch(fetchBlankData());
+    };
+}
+//error
+export const fetchBlankData = () => {
+    return{
+        type: types.FETCH_BlANK_DATA,
+        error:""
+    }
+}
+
+export const dataServerFail = (params) => {
+    return (dispatch) => {
+        dispatch(fetchDataServerFail(params));
+    };
+}
+//error
+export const fetchDataServerFail = (params) => {
+    return{
+        type: types.FETCH_SERVER_FAIL,
+        error:params
+    }
+}
 
