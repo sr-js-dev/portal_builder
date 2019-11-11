@@ -35,16 +35,19 @@ class Header extends Component {
                 <a href="/" className="header__logo-mob">
                     <img src={require("../assets/images/appmakerz.svg")} alt="logo"/>
                 </a>
-                <div className="header__user">
-                    <img src={require("../assets/images/avatar.jpg")} alt="User avatar" className="header__user-img"/>
+                <div className="header__controls">
                     <Dropdown>
                         <Dropdown.Toggle variant="success" id="dropdown-basic" style={{color:"#000000"}}>
                             Johan Boerema
                         </Dropdown.Toggle>
+
                         <Dropdown.Menu>
                             <Dropdown.Item onClick={this.logOut}>Logout</Dropdown.Item>
                         </Dropdown.Menu>
                     </Dropdown>
+                </div>
+                <div className="header__user">
+                    <img src={require("../assets/images/avatar.jpg")} alt="User avatar" className="header__user-img"/>
                 </div>
             </header>
         </div>
