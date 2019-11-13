@@ -27,7 +27,7 @@ html, body {
 
 .row{
 flex-wrap: inherit;
-margin-right: 21px;
+margin-right: 10px;
 }
 .col-sm-10{
 padding-right: 0px;
@@ -274,4 +274,17 @@ width: 100px;
 }
 .header__user-img{
   margin-right: 5px;
+}
+@media (max-width: 1000px){
+  .product-form {
+    padding-bottom: 0px;
+    width: 100%;
+    /* width: 80%; */
+  }
+}
+.react-confirm-alert-button-group {
+  justify-content: flex-end;
+}
+.statu-item{
+  cursor: pointer
 }

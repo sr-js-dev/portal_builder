@@ -22,7 +22,7 @@ export const fetchLoginData = (params) => {
           .then(response => {
             window.localStorage.setItem('portal_token', response.access_token);
             dispatch(fetchLoginDataSuccess(response));
-            history.push('/product')
+            history.push('/Product')
         })
         .catch(err => {
             dispatch(fetchLoginDataFail(err.responseJSON.error_description));

@@ -4,27 +4,28 @@ import { Button } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import Adduserform from './adduserform';
 import $ from 'jquery';
-// import '@fortawesome/fontawesome-free/css/all.min.css';
-// import 'bootstrap-css-only/css/bootstrap.min.css';
-// import 'mdbreact/dist/css/mdb.css';
-// import SessionManager from '../../components/session_manage';
+import SessionManager from '../../components/session_manage';
 import API from '../../components/api'
-// import Axios from 'axios';
+import Axios from 'axios';
+import { BallBeat } from 'react-pure-loaders';
 import { getUserToken } from '../../components/auth';
 import { trls } from '../../components/translate';
+import { confirmAlert } from 'react-confirm-alert'; // Import
+import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
 const mapStateToProps = state => ({ ...state.auth });
 
 const mapDispatchToProps = dispatch => ({
     
 });
-class Product extends Component {
+class Userregister extends Component {
     _isMounted = false
     constructor(props) {
         super(props);
         this.state = {  
             userData:[],
             flag:'',
-            userUpdateData:[]
+            userUpdateData:[],
+            loading:true
         };
       }
     componentDidMount() {
@@ -35,14 +36,16 @@ class Product extends Component {
         this._isMounted = false
     }
     getUserData () {
-        // var headers = SessionManager.shared().getAuthorizationHeader();
-        // Axios.get(API.GetUserData, headers)
-        // .then(result => {
-        //     if(this._isMounted){
-        //         this.setState({userData:result.data.data})
-        //     }
-                
-        // });
+        this._isMounted = true;
+        this.setState({loading:true})
+        var headers = SessionManager.shared().getAuthorizationHeader();
+        Axios.get(API.GetUserData, headers)
+        .then(result => {
+            if(this._isMounted){
+                this.setState({userData:result.data})
+                this.setState({loading:false})
+            }
+        });
     }
     userUpdate = (event) => {
         let userID=event.currentTarget.id;
@@ -62,38 +65,54 @@ class Product extends Component {
         });
     }
     viewUserData = (event) => {
-        var settings = {
-            "url": API.GetUserDataById+event.currentTarget.id,
-            "method": "GET",
-            "headers": {
-                "Content-Type": "application/json",
-                "Authorization": "Bearer "+getUserToken(),
-        }
-        }
-        $.ajax(settings).done(function (response) {
-        })
-        .then(response => {
-            this.setState({userUpdateData: response})
-            this.setState({modalShow:true, mode:"view", flag:true})
+        this._isMounted = true;
+        var headers = SessionManager.shared().getAuthorizationHeader();
+        Axios.get(API.GetUserDataById+event.currentTarget.id, headers)
+        .then(result => {
+            if(this._isMounted){
+                this.setState({userUpdateData: result.data})
+                this.setState({modalShow:true, mode:"view", flag:true})
+            }
         });
     }
-    userDelte = (event) => {
-        var settings = {
-            "url": API.DeactivateUser+event.currentTarget.id,
-            "method": "POST",
-            "headers": {
-                "Content-Type": "application/json",
-                "Authorization": "Bearer "+getUserToken(),
-        }
-        }
-        $.ajax(settings).done(function (response) {
-        })
-        .then(response => {
-            this.getUserData();
+    userDelete = () => {
+        var headers = SessionManager.shared().getAuthorizationHeader();
+        Axios.delete("https://cors-anywhere.herokuapp.com/"+API.DeleteUserData+this.state.userId, headers)
+        .then(result => {
+            this.setState({loading:true})
+            this.getUserData();               
         });
+    }
+    userDeleteConfirm = (event) => {
+        this.setState({userId:event.currentTarget.id})
+        confirmAlert({
+            title: 'Confirm',
+            message: 'Are you sure to do this.',
+            buttons: [
+              {
+                label: 'Delete',
+                onClick: () => {
+                   this.userDelete()
+                }
+              },
+              {
+                label: 'Cancel',
+                onClick: () => {}
+              }
+            ]
+          });
     }
     render () {
         let userData=this.state.userData;
+        let optionarray = [];
+        if(userData){
+            userData.map((data, index) => {
+                if(data.IsActive){
+                    optionarray.push(data);
+                }
+              return userData;
+            })
+        }
         return (
             <div className="order_div">
                 <div className="content__header content__header--with-line">
@@ -117,36 +136,41 @@ class Product extends Component {
                         <table className="place-and-orders__table table table--striped prurprice-dataTable"  >
                             <thead>
                             <tr>
-                                <th>{trls('FirstName')}</th>
-                                <th>{trls('LastName')}</th>
+                                <th>{trls('UserName')}</th>
                                 <th>{trls('Email')}</th>
                                 <th>{trls('Active')}</th>
                                 <th>{trls('State')}</th>
                             </tr>
                             </thead>
-                            {userData &&(<tbody >
+                            {optionarray && !this.state.loading &&(<tbody >
                                 {
-                                    userData.map((data,i) =>(
-                                    <tr id={i} key={i}>
-                                        <td>{data.firstName}</td>
-                                        <td>{data.lastName}</td>
-                                        <td>{data.email}</td>
-                                        <td><Form.Check inline name="Intrastat" type="checkbox" disabled defaultChecked={data.isActive} id="Intrastat" /></td>
-                                        <td >
-                                            <Row style={{width:"10px"}}>
-                                                <div>
-                                                <img src={require("../../assets/images/icon-cancelled.svg")}id={data.id} className="statu-item" alt="cancelled" onClick={this.userDelte}/>
-                                                </div>
-                                                
-                                                <img src={require("../../assets/images/icon-draft.svg")} id={data.id} className="statu-item" onClick={this.userUpdate} alt="Draft"/>
-                                                <img src={require("../../assets/images/icon-open-box.svg")} id={data.id} className="statu-item" onClick={this.viewUserData} alt="Draft"/>
-                                            </Row>
-                                        </td>
-                                    </tr>
+                                    optionarray.map((data,i) =>(
+                                        <tr id={i} key={i}>
+                                            <td>{data.UserName}</td>
+                                            <td>{data.Email}</td>
+                                            <td><Form.Check inline name="Intrastat" type="checkbox" disabled defaultChecked={data.IsActive} id="Intrastat" /></td>
+                                            <td >
+                                                <Row style={{width:"10px"}}>
+                                                    <div>
+                                                    <img src={require("../../assets/images/icon-cancelled.svg")}id={data.Id} className="statu-item" alt="cancelled" onClick={this.userDeleteConfirm}/>
+                                                    </div>
+                                                    <img src={require("../../assets/images/icon-draft.svg")} id={data.Id} className="statu-item" onClick={this.userUpdate} alt="Draft"/>
+                                                    <img src={require("../../assets/images/icon-open-box.svg")} id={data.Id} className="statu-item" onClick={this.viewUserData} alt="Draft"/>
+                                                </Row>
+                                            </td>
+                                        </tr>
                                 ))
                                 }
                             </tbody>)}
                         </table>
+                        { this.state.loading&& (
+                            <div className="col-md-4 offset-md-4 col-xs-12 loading" style={{textAlign:"center"}}>
+                                <BallBeat
+                                    color={'#222A42'}
+                                    loading={this.state.loading}
+                                />
+                            </div>
+                        )}
                     </div>
                 </div>
             </div>
@@ -154,4 +178,4 @@ class Product extends Component {
         };
   }
     
-  export default connect(mapStateToProps, mapDispatchToProps)(Product);
+  export default connect(mapStateToProps, mapDispatchToProps)(Userregister);

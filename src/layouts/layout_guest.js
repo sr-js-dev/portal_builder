@@ -36,7 +36,7 @@ class Layout extends Component {
     let menuItemList =  this.state.menuItemList;
     return (
         <Row>
-          <Col sm={2}><Sidebar/></Col>
+          <Col sm={2} style={{paddingLeft:"0px"}}><Sidebar/></Col>
           <Col sm={10}>
           <Header/>
             <Router history={history}>
