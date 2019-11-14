@@ -150,10 +150,8 @@ class Userregister extends Component {
                                             <td>{data.Email}</td>
                                             <td><Form.Check inline name="Intrastat" type="checkbox" disabled defaultChecked={data.IsActive} id="Intrastat" /></td>
                                             <td >
-                                                <Row style={{width:"10px"}}>
-                                                    <div>
+                                                <Row style={{justifyContent:"center"}}>
                                                     <img src={require("../../assets/images/icon-cancelled.svg")}id={data.Id} className="statu-item" alt="cancelled" onClick={this.userDeleteConfirm}/>
-                                                    </div>
                                                     <img src={require("../../assets/images/icon-draft.svg")} id={data.Id} className="statu-item" onClick={this.userUpdate} alt="Draft"/>
                                                     <img src={require("../../assets/images/icon-open-box.svg")} id={data.Id} className="statu-item" onClick={this.viewUserData} alt="Draft"/>
                                                 </Row>
